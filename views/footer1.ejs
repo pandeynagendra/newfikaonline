@@ -1,0 +1,128 @@
+<!-- ================= FOOTER ================= -->
+<footer class="footer bg-body border-top mt-5">
+  <div class="container py-5">
+
+    <!-- TOP GRID -->
+    <div class="row gy-4">
+
+      <!-- BRAND / ABOUT -->
+      <div class="col-lg-4 col-md-6">
+        <a href="/" class="d-inline-flex align-items-center mb-3 text-decoration-none">
+          <img src="/images/L3.png" alt="FIKA" style="width:140px;height:auto;">
+        </a>
+
+        <p class="fs-sm text-body-secondary mb-3">
+          Discover cutting-edge audio and lifestyle products from FIKA.
+          Immerse yourself in superior sound and stylish designs.
+        </p>
+
+        <!-- SOCIAL -->
+        <div class="d-flex gap-3">
+          <a href="https://www.instagram.com/fika.offical?igsh=ODV5eHZucjJhNzFx" target="_blank">
+            <img src="https://img.icons8.com/fluency/32/instagram-new.png" alt="Instagram">
+          </a>
+          <a href="https://youtube.com/@fika-h5q?feature=shared" target="_blank">
+            <img src="https://img.icons8.com/color/32/youtube-play.png" alt="YouTube">
+          </a>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-semibold mb-3">Shop</h6>
+        <ul class="nav flex-column gap-2 fs-sm">
+          <% if(result && result[0]){ %>
+            <% for(let i=0;i<result[0].length;i++){ %>
+              <li>
+                <a class="nav-link p-0 text-body-secondary animate-underline"
+                   href="/category?id=<%=result[0][i].id%>">
+                  <span class="animate-target"><%=result[0][i].name%></span>
+                </a>
+              </li>
+            <% } %>
+          <% } %>
+        </ul>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="col-lg-3 col-md-6">
+        <h6 class="fw-semibold mb-3">About FIKA</h6>
+        <ul class="nav flex-column gap-2 fs-sm">
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/about">
+              <span class="animate-target">Our Story</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/careers">
+              <span class="animate-target">Careers</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/press">
+              <span class="animate-target">Press</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- SUPPORT -->
+      <div class="col-lg-3 col-md-6">
+        <h6 class="fw-semibold mb-3">Support</h6>
+        <ul class="nav flex-column gap-2 fs-sm">
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/contact">
+              <span class="animate-target">Contact Us</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/track-order">
+              <span class="animate-target">Track Order</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/warranty">
+              <span class="animate-target">Warranty</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- CUSTOMER CARE -->
+        <div class="mt-3 fs-sm">
+          <div class="text-body-secondary">Customer Care</div>
+          <div class="fw-medium text-body">+91-819-895-8764</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LEGAL -->
+    <div class="row mt-5 pt-4 border-top">
+      <div class="col-md-8">
+        <ul class="nav fs-sm gap-3">
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/privacy-policy">
+              <span class="animate-target">Privacy Policy</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/terms-and-conditions">
+              <span class="animate-target">Terms of Service</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link p-0 text-body-secondary animate-underline" href="/refund-policy">
+              <span class="animate-target">Shipping & Returns</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 text-md-end fs-xs text-body-secondary mt-3 mt-md-0">
+        © 2025 <strong>FIKA</strong>. All rights reserved.
+      </div>
+    </div>
+
+  </div>
+</footer>
+

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-pwa="true">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-42QLWK8ESK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-42QLWK8ESK');
+  </script>
+
+  <!-- SEO -->
+  <meta name="keywords" content="FikA, Bluetooth speakers, soundbars, electronics">
+  <meta name="author" content="Fika">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/images/logo.png" sizes="32x32">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Theme -->
+  <script src="/theme/assets/js/theme-switcher.js"></script>
+  <link rel="stylesheet" href="/theme/assets/icons/cartzilla-icons.min.css">
+  <link rel="stylesheet" href="/theme/assets/vendor/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/theme/assets/vendor/simplebar/simplebar.min.css">
+  <link rel="stylesheet" href="/theme/assets/css/theme.min.css">
+  <script src="/theme/assets/js/customizer.min.js"></script>
+
+  <style>
+    html, body {
+      transition: background-color .25s ease, color .25s ease;
+    }
+
+    .compact-header { min-height: 60px !important; }
+    .compact-logo { height: 80px !important; object-fit: contain; }
+
+    .search-input-fixed {
+      height: 38px !important;
+      font-size: 14px !important;
+      padding-left: 3.5rem !important;
+      background-color: var(--bs-tertiary-bg) !important;
+    }
+
+    .compact-btn {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--bs-border-color);
+      display: flex; align-items: center; justify-content: center;
+      transition: .25s;
+    }
+
+    .compact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    }
+
+    
+
+    .icon-size-lg { font-size: 22px; }
+
+    .icons-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<%- include('./shoppingCart.ejs') %>
+
+<!-- ================= COMPACT HEADER ================= -->
+<header class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top compact-header p-0">
+  <div class="container py-1">
+    <div class="row align-items-center w-100 g-2">
+
+      <!-- LOGO + TOGGLER -->
+      <div class="col-lg-3 d-flex align-items-center">
+        <button class="navbar-toggler compact-nav-toggler me-2" data-bs-toggle="offcanvas" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon" style="font-size: 1.5rem;"></span>
+        </button>
+
+        <a href="/" class="navbar-brand p-0">
+          <img src="/images/L3.png" class="compact-logo" alt="Fika Logo">
+        </a>
+      </div>
+
+      <!-- CENTERED SEARCH BAR -->
+      <div class="col-lg-6 d-flex align-items-center justify-content-center py-2">
+  <div class="search-center-container d-flex align-items-center gap-3">
+
+    <!-- ================= CATEGORY DROPDOWN ================= -->
+    <div class="dropdown d-none d-lg-block">
+      <button class="btn btn-outline-secondary rounded-pill px-3 d-flex align-items-center"
+              data-bs-toggle="dropdown"
+              data-bs-trigger="hover">
+        <i class="ci-grid me-2"></i>
+        <span>Categories</span>
+        <i class="ci-chevron-down ms-2 fs-sm"></i>
+      </button>
+
+      <!-- CATEGORY LIST (OLD CODE LOGIC) -->
+      <ul class="dropdown-menu shadow rounded-4 mt-2"
+          style="min-width:260px">
+
+        <% for (let i = 0; i < result[0].length; i++) { %>
+          <li>
+            <a href="/category?id=<%= result[0][i].id %>"
+               class="dropdown-item d-flex align-items-center">
+              <img src="/images/<%= result[0][i].image %>"
+                   style="width:28px;height:28px;object-fit:cover"
+                   class="me-2 rounded">
+              <span class="fw-medium"><%= result[0][i].name %></span>
+              <i class="ci-chevron-right ms-auto fs-sm opacity-50"></i>
+            </a>
+          </li>
+        <% } %>
+
+      </ul>
+    </div>
+
+    <!-- ================= SEARCH BAR ================= -->
+    <div style="width:100%; max-width:400px;">
+      <form id="searchFormDesktop"
+            action="/search"
+            method="GET"
+            class="position-relative">
+        <i class="ci-search position-absolute top-50 translate-middle-y"
+           style="left:16px;color:#6c757d;font-size:16px;z-index:10;"></i>
+
+        <input type="search"
+               name="q"
+               class="form-control rounded-pill w-100 search-input-fixed ps-5"
+               placeholder="Search products..."
+               aria-label="Search products">
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
+      <!-- ICONS -->
+      <div class="col-lg-3 d-flex align-items-center justify-content-end py-2">
+        <div class="icons-container">
+          
+          <!-- THEME TOGGLE -->
+<button class="btn btn-sm btn-outline-secondary compact-btn"
+        id="themeToggleBtn"
+        title="Toggle Dark / Light Mode"
+        aria-label="Toggle theme">
+  <i class="ci-moon icon-size-lg" id="themeToggleIcon"></i>
+</button>
+
+          <!-- ACCOUNT -->
+          <% if (login) { %>
+            <a href="/myaccount" class="btn btn-sm btn-outline-secondary compact-btn" title="My Account" aria-label="My Account">
+              <i class="ci-user icon-size-lg"></i>
+            </a>
+          <% } else { %>
+            <a href="/login" class="btn btn-sm btn-outline-secondary compact-btn" title="Login" aria-label="Login">
+              <i class="ci-user icon-size-lg"></i>
+            </a>
+          <% } %>
+
+          <!-- WISHLIST -->
+          <a href="/view-wishlist" class="btn btn-sm btn-outline-secondary compact-btn d-none d-md-inline-flex" title="Wishlist" aria-label="Wishlist">
+            <i class="ci-heart icon-size-lg"></i>
+          </a>
+
+          <!-- CART -->
+          <button class="btn btn-sm btn-dark compact-btn position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#shoppingCart"
+            title="Shopping Cart"
+            aria-label="Shopping Cart">
+            <i class="ci-shopping-cart icon-size-lg"></i>
+            <% if (cartData.cartItems.length > 0) { %>
+              <span class="badge bg-danger compact-badge position-absolute top-0 start-100 translate-middle border border-2 border-white">
+                <%= cartData.cartItems.length %>
+              </span>
+            <% } %>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE SEARCH -->
+  <div class="collapse d-lg-none border-top" id="searchBarMobile">
+    <div class="container py-2">
+      <form id="searchFormMobile" action="/search" method="GET" class="position-relative">
+        <i class="ci-search position-absolute top-50 translate-middle-y ms-3 text-muted" style="font-size: 16px;"></i>
+        <input type="search" name="q"
+          class="form-control compact-search rounded-pill ps-4 pe-3"
+          placeholder="Search products..."
+          aria-label="Search products">
+      </form>
+    </div>
+  </div>
+</header>
+
+<!-- ================= NAVIGATION / CATEGORIES ================= -->
+<nav class="offcanvas offcanvas-start" id="navbarNav">
+  <div class="offcanvas-header py-4">
+    <h5 class="h6 mb-0">Browse Categories</h5>
+    <button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close menu"></button>
+  </div>
+
+  <div class="offcanvas-body p-0">
+    <% if (result && result[0]) { %>
+      <div class="list-group list-group-flush">
+        <% for (let i = 0; i < result[0].length; i++) { %>
+          <a href="/category?id=<%= result[0][i].id %>"
+             class="list-group-item list-group-item-action border-0 py-2 d-flex align-items-center">
+            <img src="/images/<%= result[0][i].image %>" 
+                 class="me-3 rounded" 
+                 style="width: 28px; height: 28px; object-fit: cover;"
+                 alt="<%= result[0][i].name %>">
+            <span class="fw-medium"><%= result[0][i].name %></span>
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</nav>
+
+<!-- ================= THEME SCRIPT ================= -->
+<script>
+(function () {
+  const html = document.documentElement;
+  const btn = document.getElementById("themeToggleBtn");
+  const icon = document.getElementById("themeToggleIcon");
+
+  const saved = localStorage.getItem("theme");
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = saved || (systemDark ? "dark" : "light");
+  applyTheme(theme);
+
+  btn.addEventListener("click", () => {
+    const newTheme = html.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+    applyTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  });
+
+  function applyTheme(mode) {
+    html.setAttribute("data-bs-theme", mode);
+    icon.className = mode === "dark" ? "ci-sun icon-size-lg" : "ci-moon icon-size-lg";
+  }
+})();
+</script>
+
+</body>
+</html>
