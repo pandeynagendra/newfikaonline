@@ -3,16 +3,43 @@
 <!-- Page content -->
 <main class="content-wrapper">
   <!-- Swiper CSS -->
-  <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+ <meta charset="utf-8">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+
+    <!-- SEO Meta Tags -->
+    <title>FIKA | Account - Sign Up</title>
+    <meta name="description" content="FIKA | Account - Sign Up">
+   <meta name="author" content="Createx Studio">
+
+    <!-- Webmanifest + Favicon / App icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="/images/logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/theme/assets/js/theme-switcher.js"></script>
+
+    <!-- Preloaded local web font (Inter) -->
+    <link rel="preload" href="/theme/assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
+
+    <!-- Font icons -->
+    <link rel="preload" href="/theme/assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/theme/assets/icons/cartzilla-icons.min.css">
+
+    <!-- Bootstrap + Theme styles -->
+    <link rel="preload" href="/theme/assets/css/theme.min.css" as="style">
+    <link rel="preload" href="/theme/assets/css/theme.rtl.min.css" as="style">
+    <link rel="stylesheet" href="/theme/assets/css/theme.min.css" id="theme-styles">
+
+    <!-- Customizer -->
+    <script src="/theme/assets/js/customizer.min.js"></script>
+  </head>
   
   <style>
-    White Background for everything
-    body, html, main, section, .container, .container-fluid,
-    .bg-body, .bg-body-tertiary, .product-card,
-    .swiper-slide, .rounded-5, .rounded-top,
-    .list-group-item, .dropdown-menu {
-      background-color: white !important;
-    }
     
     .swiper-slide img {
       width: 100%;
@@ -20,11 +47,34 @@
       object-fit: cover;
       border-radius: 10px;
     }
+
+    .swiper,
+.desktop-banner,
+.mobile-banner {
+  z-index: 1 !important;
+}
+
+.search-suggestion-panel {
+  display: block !important;
+}
+
     
     .swiper-wrapper {
       display: flex;
     }
     
+    /* 🔥 FIX: Allow navbar dropdowns to overflow */
+.content-wrapper {
+  overflow: visible !important;
+}
+
+/* 🔥 Ensure search dropdown stays above banners */
+.search-suggestion-panel {
+  z-index: 99999 !important;
+}
+
+
+
     /* Hide mobile banner by default */
     .mobile-banner {
       display: none;
@@ -52,7 +102,6 @@
     /* Blue Add to Cart button */
     .blue-cart-btn {
       background-color: #0d6efd !important;
-      color: white !important;
       border: none !important;
       border-radius: 8px;
       padding: 8px 16px;
@@ -78,7 +127,6 @@
     /* Fix for dark theme sections */
     [data-bs-theme="dark"] {
       background-color: #1a1a1a !important;
-      color: white !important;
     }
     
     [data-bs-theme="dark"] .text-body {
@@ -494,60 +542,95 @@
 </main>
 
 <%- include ('./footer1.ejs') %>
-
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all swipers
-    const swipers = document.querySelectorAll('.swiper');
-    swipers.forEach(swiperEl => {
-      try {
-        const config = JSON.parse(swiperEl.getAttribute('data-swiper').replace(/&quot;/g, '"'));
-        new Swiper(swiperEl, config);
-      } catch (e) {
-        console.log('Swiper initialization error:', e);
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* ===============================
+     🔥 SWIPER INITIALIZATION (SAFE)
+  =============================== */
+  document.querySelectorAll('.swiper').forEach(swiperEl => {
+    try {
+      const rawConfig = swiperEl.getAttribute('data-swiper');
+      if (!rawConfig) return;
+
+      const config = JSON.parse(rawConfig.replace(/&quot;/g, '"'));
+      const slidesCount = swiperEl.querySelectorAll('.swiper-slide').length;
+
+      // 🔥 Fix Swiper loop warning
+      if (config.loop === true) {
+        const slidesPerView = config.slidesPerView || 1;
+        if (slidesCount <= slidesPerView) {
+          config.loop = false;
+        }
+      }
+
+      new Swiper(swiperEl, config);
+
+    } catch (error) {
+      console.warn('Swiper initialization failed:', error);
+    }
+  });
+
+
+  /* ===============================
+     🔍 SEARCH PANEL HANDLING
+  =============================== */
+  const searchInput = document.getElementById("searchInput");
+  const searchPanel = document.getElementById("searchPanel");
+
+  if (searchInput && searchPanel) {
+    searchInput.addEventListener("focus", () => {
+      searchPanel.style.display = "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#searchPanel") &&
+          !e.target.closest("#searchInput")) {
+        searchPanel.style.display = "none";
       }
     });
-  });
-  
-  // Cart functions with safety
-  function addToCart(productId) {
-    if (!productId) return;
-    
-    fetch('/add-to-cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId: productId })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        // Update cart count or show notification
-        location.reload();
-      }
-    })
-    .catch(error => console.error('Error:', error));
   }
-  
-  function addToWishlist(productId) {
-    if (!productId) return;
-    
-    fetch('/add-to-wishlist', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId: productId })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Added to wishlist!');
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
-</script>
+
+});
+
+
+/* ===============================
+   🛒 ADD TO CART
+================================ */
+function addToCart(productId) {
+  if (!productId) return;
+
+  fetch('/add-to-cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) location.reload();
+  })
+  .catch(err => console.error('Add to cart error:', err));
+}
+
+
+/* ===============================
+   ❤️ ADD TO WISHLIST
+================================ */
+function addToWishlist(productId) {
+  if (!productId) return;
+
+  fetch('/add-to-wishlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) alert('Added to wishlist!');
+  })
+  .catch(err => console.error('Wishlist error:', err));
+}
+</script> 
